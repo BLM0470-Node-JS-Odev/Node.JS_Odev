@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize');
+//database bağlantısı için sequelize npm kütüphanesini çağırdık.
+
 
 const database = new Sequelize({
     database: "nodejsproject",
