@@ -1,0 +1,11 @@
+{
+  "name": "node.js_odev",
+  "version": "1.0.0",
+  "description": "BLM0470_Node.JS Proje Ödevi",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
