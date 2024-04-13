@@ -21,13 +21,13 @@ exports.get = (req, res, next) => {
 //CREATE - POST
 exports.add = (req, res, next) => {
     const name = req.body.name;
-    const dept_id = req.body.deptstdid;
+    const deptstdid = req.body.deptstdid;
 
     Department.create({
         name: name,
         email: email,
         count: count,
-        dept_id: dept_id
+        deptstdid: deptstdid
     })
     .then( result => {
         console.log(result);
@@ -42,10 +42,39 @@ exports.add = (req, res, next) => {
 
 //UPDATE - PATCH
 exports.update = (req, res, next) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const deptstdid = req.body.deptstdid;
 
+    Department.findByPk(id)
+    .then(department => {
+        department.name = name;
+        department.deptstdid = deptstdid;
+        department.save()
+        .then(()=>{
+            res.json({
+                message: "updated succesfully"
+            })
+        })
+        .catch(err =>{
+            console.error(err);
+        });
+    })
+    .catch(err=>{
+        console.log(err);
+    });
 }
 
 //DELETE - DELETE
 exports.delete = (req, res, next) =>{
-
+    const id = req.body.id;
+    Department.destroy({where:id})
+    .then(()=>{
+        res.json({
+            message:"Succesfully Deleted"
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 }

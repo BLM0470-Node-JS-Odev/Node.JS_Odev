@@ -46,10 +46,43 @@ exports.add = (req, res, next) => {
 
 //UPDATE - PATCH
 exports.update = (req, res, next) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const email = req.body.email;
+    const count = req.body.count;
+    const dept_id = req.body.dept_id;
 
+    Department.findByPk(id)
+    .then(department => {
+        department.name = name;
+        department.email = email;
+        department.count = count;
+        department.dept_id = dept_id;
+        department.save()
+        .then(()=>{
+            res.json({
+                message: "updated succesfully"
+            })
+        })
+        .catch(err =>{
+            console.error(err);
+        });
+    })
+    .catch(err=>{
+        console.log(err);
+    });
 }
 
 //DELETE - DELETE
 exports.delete = (req, res, next) =>{
-
+    const id = req.body.id;
+    Student.destroy({where:id})
+    .then(()=>{
+        res.json({
+            message:"Succesfully Deleted"
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 }
