@@ -1,7 +1,13 @@
+//typescript
+
 const express = require('express');
 const app = express();
-const path = require('path');
 
+require('dotenv').config()
+//.env dosyası bağlantısı için
+
+const path = require('path');
+const bodyParser = require('body-parser');
 const database = require('./database');
 const departmanRoutes = require('./routes/Departman');
 const studentRoutes = require('./routes/Student');
@@ -10,7 +16,7 @@ const studentAddRoutes = require('./routes/StudentAdd');
 database.authenticate().then(() => console.log('Veritabanına Bağlandı')).catch((err) => console.log('Hata: ' + err))
 //database bağlantısını kontrol ediyoruz   
 
-
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //routes
 //Sistem ilk routesleri çalıştırmaya çalışır o yüzden öncelikle routesları app.use() ile başa yazdık.
@@ -33,6 +39,6 @@ app.use((req, res) => {
 
 
 //8080 portundan uygulamamızı çalıştırdık.
-app.listen(8080, () => {
+app.listen(process.env.PORT, () => {
     console.log('Listining on port 8080');
 });

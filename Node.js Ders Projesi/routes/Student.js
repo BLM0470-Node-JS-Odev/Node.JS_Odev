@@ -14,6 +14,7 @@ router.get('/Student', async (req, res, next) => {
     //JSON şeklinde bilgileri ekrana yazdırdık
   });
 
+
   
 router.post('/Student', (req, res, next) => {
     //index.html'den gelen bilgileri atadık
@@ -27,7 +28,7 @@ router.post('/Student', (req, res, next) => {
     //Verileri eklemek için çalıştırmamız gereken sql kodları çalıştırdık.
     database.query(`INSERT INTO nodejsapp."Department"(id, name) VALUES (${id}, '${department_name}') `).then(results => {});
     database.query(`INSERT INTO nodejsapp."Student"(id, name, email, counter, department_id) VALUES (${id}, '${name}', '${email}', ${counter}, ${department_id})`).then(results => {});
-    database.query(`UPDATE nodejsapp."Department" SET  student_id=${id} WHERE id=${id}`).then(results => {});
+    database.query(`UPDATE nodejsapp."Department" SET  student_id=${id} WHERE id=${department_id}`).then(results => {});
   
 
     res.redirect('/');

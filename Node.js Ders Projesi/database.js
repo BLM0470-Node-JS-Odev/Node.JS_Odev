@@ -2,12 +2,15 @@ const Sequelize = require('sequelize');
 //database bağlantısı için sequelize npm kütüphanesini çağırdık.
 
 
+require('dotenv').config()
+//.env dosyasında saklayın
+
 const database = new Sequelize({
-    database: "nodejsproject",
-    username: "superman",
-    password: "G{gQqbX#,:^m[5Y's>f)",
-    host: "node-app.postgres.database.azure.com",
-    port: 5432,
+    database: process.env.DATABASE_NAME,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASSWORD,
+    host: process.env.DATABASE_HOST,
+    port: process.env.DATABASE_PORT,
     dialect: "postgres",
     dialectOptions: {
       ssl: {
