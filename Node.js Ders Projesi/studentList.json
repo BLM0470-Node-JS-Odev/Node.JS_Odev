@@ -1,0 +1,44 @@
+[
+  {
+    "id": 2,
+    "name": "dsadas",
+    "email": "dsadsa@hasdsa",
+    "counter": 2,
+    "department_id": 2
+  },
+  {
+    "id": 1,
+    "name": "mustafa",
+    "email": "kansdjah@glkankjss",
+    "counter": 1,
+    "department_id": 1
+  },
+  {
+    "id": 3,
+    "name": "dsa",
+    "email": "dsadas@dasd",
+    "counter": 3,
+    "department_id": 3
+  },
+  {
+    "id": 4,
+    "name": "dsadas",
+    "email": "dsadas@dasd",
+    "counter": 4,
+    "department_id": 4
+  },
+  {
+    "id": 5,
+    "name": "dsadas",
+    "email": "dsadas@dasd",
+    "counter": 5,
+    "department_id": 5
+  },
+  {
+    "id": 6,
+    "name": "dsadas",
+    "email": "dsadas@dasd",
+    "counter": 6,
+    "department_id": 6
+  }
+]

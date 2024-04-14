@@ -9,9 +9,14 @@ require('dotenv').config()
 const path = require('path');
 const bodyParser = require('body-parser');
 const database = require('./database');
+
 const departmanRoutes = require('./routes/Departman');
+
 const studentRoutes = require('./routes/Student');
+
 const studentAddRoutes = require('./routes/StudentAdd');
+
+const studentListJSON = require('./routes/studentListJSON');
 
 database.authenticate().then(() => console.log('Veritabanına Bağlandı')).catch((err) => console.log('Hata: ' + err))
 //database bağlantısını kontrol ediyoruz   
@@ -23,6 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(departmanRoutes);
 app.use(studentRoutes);
 app.use(studentAddRoutes);
+// app.use(studentListJSON);
 
 //hata sayfamızın çalışması için app.use() yerine app.get() kullandık. Çünkü bir hata durumunda ilk '/' doğru olacağı için ana sayfayı açmasını
 //istemiyoruz get() fonksiyonu bunu engelliyor.

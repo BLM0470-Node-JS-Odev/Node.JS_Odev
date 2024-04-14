@@ -46,6 +46,7 @@
 <body>
     <div>
         <button id="studentAddBtn">Öğrenci Ekle</button>
+        <button id="studentDelBtn">Öğrenci Sil</button>
         <button id="students">Öğrenciler</button>
         <button id="departmants">Departmanlar</button>
     </div>
@@ -57,6 +58,13 @@
         studentAdd.addEventListener("click", function() {
             window.location.href = "/StudentAdd";
         });
+
+        const studentDel = document.getElementById("studentDelBtn");
+
+        studentDel.addEventListener("click", function() {
+            window.location.href = "/StudentDel";
+        });
+
 
         const students = document.getElementById("students");
 

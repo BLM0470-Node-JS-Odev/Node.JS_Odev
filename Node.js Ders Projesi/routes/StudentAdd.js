@@ -9,4 +9,8 @@ router.get('/StudentAdd', (req, res, next) => {
      
 });
 
+
+router.get('/StudentDel', (req, res) => {
+     res.sendFile( path.join(__dirname,'../', 'views','StudentDel.html') );
+})
 module.exports = router;
