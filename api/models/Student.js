@@ -20,7 +20,7 @@ const Student = sequelize.define('student', {
     counter: Sequelize.INTEGER,
     deptid: {
         type: Sequelize.INTEGER,
-        allowNull: true
+        allowNull: false,
     }
 });
 

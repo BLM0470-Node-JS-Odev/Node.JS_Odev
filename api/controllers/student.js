@@ -1,9 +1,11 @@
 const Student = require('../models/Student');
+const Department = require('../models/Department');
+const StudentDepartment = require('../models/StudentDepartment');
 
 //READ - GET
-exports.getAll = (req, res, next) =>{
+exports.getAll = async (req, res, next) =>{
     console.log("get all request");
-    const students = Student.findAll();
+    const students = await Student.findAll();
     res.status = 200;
     res.json({
         students: students
@@ -11,8 +13,8 @@ exports.getAll = (req, res, next) =>{
 }
 
 //READ - GET
-exports.get = (req, res, next) => {
-    const student = Student.findByPk(req.params.id);
+exports.getOne = async (req, res, next) => {
+    const student = await Student.findByPk(req.params.id);
     res.status = 200;
     res.json({
         student: student
@@ -20,47 +22,120 @@ exports.get = (req, res, next) => {
 }
 
 //CREATE - POST
-exports.add = (req, res, next) => {
-    console.log("post request");
-    const name = req.body.name;
-    const email = req.body.email;
-    const count = req.body.count;
-    const dept_id = req.body.dept_id;
+exports.addOne = async (req, res, next) => {
+    deptid = req.body.deptid
 
-    Student.create({
-        name: name,
-        email: email,
-        count: count,
-        dept_id: dept_id
-    })
-    .then( result => {
-        console.log(result);
-        res.status = 200;
-        res.json({
-            result:"Succesfuly Created",
+    const department = await Department.findByPk(deptid);
+    if(!department) {
+        return res.status(404).json({
+            message:"Department not found"
         });
-    })
-    .catch( err => {
-        console.log(err);
-    });
+    } else {
+        console.log("the department has found");
+        student = await Student.findAll({
+            where:{
+                deptid: deptid
+            }
+        })
+        .then( (result) => {
+            if (result == "") {
+                Student.create({
+                    name: req.body.name,
+                    email: req.body.email,
+                    count: req.body.count,
+                    deptid: deptid
+                })
+                .then( (student) => {
+                    StudentDepartment.create({
+                        std_id: student.id,
+                        dept_id: deptid
+                    })
+                    .then( () => {
+                        console.log("Student Department relation created");
+                        return res.status(201).json({
+                            message:"Student succesfully created"
+                        });
+                    })
+                    .catch( (err) => {
+                        console.error(err);
+                    })
+                })
+                .catch( (err) => {
+                    console.error(err);
+                });
+                } else {
+                    return res.status(200).json({
+                        message: "department id used by",
+                        result: result
+                    })
+                }
+        })
+        .catch( (err) => {
+            console.error(err);
+            res.status(500).json({
+                message:"unexpected error"
+            })
+        })
+
+    }
 }
+
+        // .then( (student) => {
+        //     if(student){
+        //         console.log(student);
+        //         return res.status(500).json({
+        //             message:"department_id is already used. Please create another one!"
+        //         });
+        //     } else {
+        //         
+        //         .then( student => {
+        //             console.log("Student succesfully created")
+        //             console.log(student);
+        //             StudentDepartment.create({
+        //                 std_id: student.id,
+        //                 dept_id: deptid
+        //             })
+        //             .then( (relation) => {
+        //                
+        //                 console.log(relation);
+        //                 res.status(201).json({
+        //                     
+        //                 })
+        //             })
+        //             .catch( (err) => {
+        //                 console.error(err);
+        //             });
+        //         })
+        //         .catch( err => {
+        //                 console.log(err);
+        //             });
+        //         }
+        //         })
+
+
+   
+    
+ 
+
+   
+ 
 
 
 //UPDATE - PATCH
-exports.update = (req, res, next) => {
+exports.updateOne = async (req, res, next) => {
     const id = req.body.id;
     const name = req.body.name;
     const email = req.body.email;
     const count = req.body.count;
     const dept_id = req.body.dept_id;
 
-    Department.findByPk(id)
-    .then(department => {
-        department.name = name;
-        department.email = email;
-        department.count = count;
-        department.dept_id = dept_id;
-        department.save()
+    await Student.findByPk(id)
+    .then(student => {
+        student.name = name;
+        student.email = email;
+        student.count = count;
+        student.dept_id = dept_id;
+        student.save()
         .then(()=>{
             res.json({
                 message: "updated succesfully"
@@ -76,9 +151,9 @@ exports.update = (req, res, next) => {
 }
 
 //DELETE - DELETE
-exports.delete = (req, res, next) =>{
+exports.deleteOne = async (req, res, next) =>{
     const id = req.body.id;
-    Student.destroy({where:id})
+    await Student.destroy({where:id})
     .then(()=>{
         res.json({
             message:"Succesfully Deleted"

@@ -1,5 +1,11 @@
 const express = require('express');
+const bodyParser = require('body-parser')
+
 const app = express();
+
+app.use (bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
 
 const database = require('./database');
 const departmanRoutes = require('./routes/departments');
@@ -9,7 +15,7 @@ const studentRoutes = require('./routes/students');
 database.authenticate().then(() => console.log('Veritabanına Bağlandı')).catch((err) => console.log('Hata: ' + err))
 //database bağlantısını kontrol ediyoruz   
 
-database.sync().then(result => {console.log(result)}).catch(err => {console.log(err)});
+database.sync().then(result => {console.log("sync succesfull")}).catch(err => {console.log(err)});
 //database şemalarını senkronize etme
 
 //routes

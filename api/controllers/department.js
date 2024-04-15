@@ -1,8 +1,9 @@
 const Department = require('../models/Department');
 
 //READ - GET
-exports.getAll = (req, res, next) =>{
-    const departments = Department.findAll();
+exports.getAll = async (req, res, next) =>{
+    const departments = await  Department.findAll();
+    console.log(JSON.stringify(departments, null, 2));
     res.status = 200;
     res.json({
         departments: departments
@@ -10,8 +11,8 @@ exports.getAll = (req, res, next) =>{
 }
 
 //READ - GET
-exports.get = (req, res, next) => {
-    const department = Department.findByPk(req.params.id);
+exports.getOne = async (req, res, next) => {
+    const department = await Department.findByPk(req.params.id);
     res.status = 200;
     res.json({
         department: department
@@ -19,52 +20,58 @@ exports.get = (req, res, next) => {
 }
 
 //CREATE - POST
-exports.add = (req, res, next) => {
-    console.log(req)
-    Department.create({
+exports.addOne = async (req, res, next) => {
+    await Department.create({
         name: req.body.name,
         deptstdid: req.body.deptstdid
     })
     .then( result => {
-        console.log(result);
-        res.json({
-            result:"Succesfuly Created",
+        res.status(201).json({
+            message: "Succesfuly Created",
         });
     })
     .catch( err => {
+        res.status(500).json({
+            message:"fail"
+            });
         console.log(err);
     });
+
 }
 
 //UPDATE - PATCH
-exports.update = (req, res, next) => {
-    const id = req.body.id;
-    const name = req.body.name;
-    const deptstdid = req.body.deptstdid;
-
-    Department.findByPk(id)
-    .then(department => {
-        department.name = name;
-        department.deptstdid = deptstdid;
-        department.save()
-        .then(()=>{
-            res.json({
-                message: "updated succesfully"
+exports.updateOne = async (req, res, next) => {
+    await Department.findByPk(req.params.id)
+    .then( (department) => {
+        if(!department){
+            return res.status(404).json({
+                message:"department not found"
+            });
+        }  else {
+            department.name = req.body.name;
+            department.deptstdid = req.body.deptstdid;
+            department.save()
+            .then(()=>{
+                res.json({
+                    message: "updated succesfully"
+                })
             })
-        })
-        .catch(err =>{
-            console.error(err);
-        });
+            .catch(err =>{
+                console.error(err);
+            });
+        }
     })
-    .catch(err=>{
-        console.log(err);
+    .catch(err => {
+        return res.status("500").json({
+            error: err
+        });
     });
 }
 
 //DELETE - DELETE
-exports.delete = (req, res, next) =>{
+exports.deleteOne = async (req, res, next) =>{
     const id = req.body.id;
-    Department.destroy({where:id})
+    await Department.destroy({where:id})
     .then(()=>{
         res.json({
             message:"Succesfully Deleted"

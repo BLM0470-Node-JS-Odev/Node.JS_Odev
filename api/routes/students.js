@@ -6,15 +6,15 @@ const student = require('../controllers/student');
 router.get('/', student.getAll);
 
 //POST request
-router.post('/', student.add);
+router.post('/', student.addOne);
 
 //GET:id request
-router.get('/:id', student.get);
+router.get('/:id', student.getOne);
 
 //PATCH:id request
-router.get('/:id', student.update);
+router.get('/:id', student.updateOne);
 
 //DELETE:id request
-router.get('/:id', student.delete);
+router.get('/:id', student.deleteOne);
 
 module.exports = router;
