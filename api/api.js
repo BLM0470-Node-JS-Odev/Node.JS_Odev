@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 const database = require('./database');
-const departmanRoutes = require('./routes/department');
+const departmanRoutes = require('./routes/departments');
 const studentRoutes = require('./routes/students');
 
 
@@ -40,6 +40,6 @@ app.use((error, req, res, next) =>{
 
 
 //8080 portundan uygulamamızı çalıştırdık.
-app.listen(8080, () => {
-    console.log('Listining on port 8080');
+app.listen(3000, () => {
+    console.log('Listining on port 3000');
 });

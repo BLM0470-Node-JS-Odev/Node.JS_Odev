@@ -12,10 +12,10 @@ router.post('/', department.add);
 router.get('/:id', department.get);
 
 //PATCH:id request
-router.get('/:id', department.update);
+router.patch('/:id', department.update);
 
 //DELETE:id request
-router.get('/:id', department.delete);
+router.delete('/:id', department.delete);
 
 
 module.exports = router;

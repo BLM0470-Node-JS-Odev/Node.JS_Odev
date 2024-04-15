@@ -1,7 +1,8 @@
-const Student = require('../../models/Student');
+const Student = require('../models/Student');
 
 //READ - GET
 exports.getAll = (req, res, next) =>{
+    console.log("get all request");
     const students = Student.findAll();
     res.status = 200;
     res.json({
@@ -20,6 +21,7 @@ exports.get = (req, res, next) => {
 
 //CREATE - POST
 exports.add = (req, res, next) => {
+    console.log("post request");
     const name = req.body.name;
     const email = req.body.email;
     const count = req.body.count;

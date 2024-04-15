@@ -1,4 +1,4 @@
-const Department = require('../../models/Department');
+const Department = require('../models/Department');
 
 //READ - GET
 exports.getAll = (req, res, next) =>{
@@ -20,14 +20,10 @@ exports.get = (req, res, next) => {
 
 //CREATE - POST
 exports.add = (req, res, next) => {
-    const name = req.body.name;
-    const deptstdid = req.body.deptstdid;
-
+    console.log(req)
     Department.create({
-        name: name,
-        email: email,
-        count: count,
-        deptstdid: deptstdid
+        name: req.body.name,
+        deptstdid: req.body.deptstdid
     })
     .then( result => {
         console.log(result);
