@@ -3,8 +3,8 @@ const cron = require('node-cron');
 
 const bodyParser = require('body-parser')
 const transporter = require('./email');
-const Student = require('./models/Student');
 const fs = require('fs');
+const path = require('path');
 
 //we use dotenv for env variables
 const dotenv = require("dotenv")
@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const database = require('./database');
 const departmanRoutes = require('./routes/departments');
 const studentRoutes = require('./routes/students');
+const Student = require('./models/Student');
 
 
 
@@ -69,24 +70,29 @@ app.use((error, req, res, next) =>{
 
 
 cron.schedule(`${process.env.PERIOD} * * * * *`, async ()=> {
-    students = Student.findAll();
-    //students = JSON.stringify(students);
-    fs.writeFileSync('list.json', students);
+    console.log("cron job worked!");
 
+    // Fetch Student instances
+    await Student.findAll()
+    .then( (students) => {
+        console.log(students)
+        students = JSON.stringify(students);
+        fs.writeFileSync('list.json', students)
+    })
+    .catch( (err) => {
+        console.error(err);
+    });
+
+    // Send Mail
     await transporter.sendMail({
         from: 'nodejs16-projetest@outlook.com', // sender address
-        to: "ahmet.kasif@btu.edu.tr,\
-        19360859068@ogrenci.btu.edu.tr,\
-        20360859116@ogrenci.btu.edu.tr,\
-        20360859030@ogrenci.btu.edu.tr,\
-        20360859032@ogrenci.btu.edu.tr", // list of receivers
+        to: "ahmet.kasif@btu.edu.tr, 19360859068@ogrenci.btu.edu.tr, 20360859116@ogrenci.btu.edu.tr, 20360859030@ogrenci.btu.edu.tr, 20360859032@ogrenci.btu.edu.tr", // list of receivers
         subject: "NODEJS PROJE TEST", // Subject line
         text: "Hello Sir, Students are listed in the attachement", // plain text body
-        html: '<b>example email</b>',
         attachments: [{
-            filename: 'list.json',
-            path: './' 
-        }],
+            filename: "list.json",
+            path: "list.json"
+        }]
       })
       .then( (mail) => {
         console.log("mail sent");
@@ -96,7 +102,6 @@ cron.schedule(`${process.env.PERIOD} * * * * *`, async ()=> {
         console.log("mail cannot delivered");
         console.error(err);
       });
-
 })
 
 
