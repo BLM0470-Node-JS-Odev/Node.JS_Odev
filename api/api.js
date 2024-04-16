@@ -2,7 +2,9 @@ const express = require('express');
 const cron = require('node-cron');
 
 const bodyParser = require('body-parser')
-const Counter = require('./models/StudentCounter');
+const transporter = require('./email');
+const Student = require('./models/Student');
+const fs = require('fs');
 
 //we use dotenv for env variables
 const dotenv = require("dotenv")
@@ -17,6 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const database = require('./database');
 const departmanRoutes = require('./routes/departments');
 const studentRoutes = require('./routes/students');
+
 
 
 database.authenticate().then(() => console.log('Veritabanına Bağlandı')).catch((err) => console.log('Hata: ' + err))
@@ -66,8 +69,34 @@ app.use((error, req, res, next) =>{
 
 
 cron.schedule(`${process.env.PERIOD} * * * * *`, async ()=> {
-    //Your Code
-    console.log("deneme");
+    students = Student.findAll();
+    //students = JSON.stringify(students);
+    fs.writeFileSync('list.json', students);
+
+    await transporter.sendMail({
+        from: 'nodejs16-projetest@outlook.com', // sender address
+        to: "ahmet.kasif@btu.edu.tr,\
+        19360859068@ogrenci.btu.edu.tr,\
+        20360859116@ogrenci.btu.edu.tr,\
+        20360859030@ogrenci.btu.edu.tr,\
+        20360859032@ogrenci.btu.edu.tr", // list of receivers
+        subject: "NODEJS PROJE TEST", // Subject line
+        text: "Hello Sir, Students are listed in the attachement", // plain text body
+        html: '<b>example email</b>',
+        attachments: [{
+            filename: 'list.json',
+            path: './' 
+        }],
+      })
+      .then( (mail) => {
+        console.log("mail sent");
+        console.log(mail);
+      })
+      .catch( (err) => {
+        console.log("mail cannot delivered");
+        console.error(err);
+      });
+
 })
 
 

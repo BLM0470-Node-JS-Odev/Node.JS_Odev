@@ -71,8 +71,8 @@ exports.updateOne = async (req, res, next) => {
 
 //DELETE - DELETE
 exports.deleteOne = async (req, res, next) =>{
-    const id = req.body.id;
-    await Department.destroy({where:id})
+    const id = req.params.id;
+    await Department.destroy({where:{id:id}})
     .then(()=>{
         res.json({
             message:"Succesfully Deleted"

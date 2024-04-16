@@ -1,0 +1,4 @@
+
+domain: node-app.postgres.database.azure.com
+username: superman
+password: G{gQqbX#,:^m[5Y's>f)
