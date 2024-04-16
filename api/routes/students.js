@@ -12,9 +12,9 @@ router.post('/', student.addOne);
 router.get('/:id', student.getOne);
 
 //PATCH:id request
-router.get('/:id', student.updateOne);
+router.patch('/:id', student.updateOne);
 
 //DELETE:id request
-router.get('/:id', student.deleteOne);
+router.delete('/:id', student.deleteOne);
 
 module.exports = router;
