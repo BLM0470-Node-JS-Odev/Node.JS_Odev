@@ -86,7 +86,10 @@ cron.schedule(`${process.env.PERIOD} * * * * *`, async ()=> {
     // Send Mail
     await transporter.sendMail({
         from: 'nodejs16-projetest@outlook.com', // sender address
-        to: "ahmet.kasif@btu.edu.tr, 19360859068@ogrenci.btu.edu.tr, 20360859116@ogrenci.btu.edu.tr, 20360859030@ogrenci.btu.edu.tr, 20360859032@ogrenci.btu.edu.tr", // list of receivers
+        to: "19360859068@ogrenci.btu.edu.tr,\
+        20360859116@ogrenci.btu.edu.tr,\
+        20360859030@ogrenci.btu.edu.tr,\
+        20360859032@ogrenci.btu.edu.tr", // list of receivers
         subject: "NODEJS PROJE TEST", // Subject line
         text: "Hello Sir, Students are listed in the attachement", // plain text body
         attachments: [{
