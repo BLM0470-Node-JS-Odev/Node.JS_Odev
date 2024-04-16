@@ -1,14 +1,17 @@
+//Student Controller
+
 const Student = require('../models/Student');
 const Department = require('../models/Department');
 const StudentDepartment = require('../models/StudentDepartment');
+const Counter = require('../models/StudentCounter');
 
 //READ - GET
-exports.getAll = async (req, res, next) =>{
+exports.getAll = async (req, res, next) => {
     console.log("get all request");
     const students = await Student.findAll();
     res.status = 200;
     res.json({
-        students: students
+        students: students,
     });
 }
 
@@ -44,16 +47,26 @@ exports.addOne = async (req, res, next) => {
         });
     }
 
+    // count instance
+    counter = await Counter.findByPk(1);
+    
+
     //create student instance
     Student.create({
         name: req.body.name,
         email: req.body.email,
         counter: req.body.counter,
         deptid: deptid
+    
     })
     .then( (student) => {
 
         stdid = student.id
+
+        //count update
+        tmp = counter.count;
+        counter.count = (tmp + 1);
+        counter.save();
 
         //relation instance create
         department.deptstdid = stdid
@@ -62,7 +75,7 @@ exports.addOne = async (req, res, next) => {
             std_id: stdid,
             dept_id: deptid
         })
-        .then( (result) => {
+        .then( (result) => {            
             return res.status(201).json({
                 message: "student and relation succesfully created!",
                 result: result
@@ -118,6 +131,10 @@ exports.updateOne = async (req, res, next) => {
 //DELETE - DELETE
 exports.deleteOne = async (req, res, next) =>{
     const id = req.params.id;
+
+    //count instance
+    counter = await Counter.findByPk(1);
+
     await StudentDepartment.destroy({where:{std_id:id}})
     .then( (result) => {
         console.log("relation succesfully deleted!");
@@ -128,6 +145,12 @@ exports.deleteOne = async (req, res, next) =>{
     });
     await Student.destroy({where:{id:id}})
     .then((student)=>{
+        
+        //count update
+        tmp = counter.count;
+        counter.count = (tmp - 1);
+        counter.save();
+
         res.json({
             message:"Succesfully Deleted",
             student: student 

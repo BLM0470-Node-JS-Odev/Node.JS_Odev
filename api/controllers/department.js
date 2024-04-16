@@ -1,3 +1,4 @@
+//Department Controller
 const Department = require('../models/Department');
 
 //READ - GET
