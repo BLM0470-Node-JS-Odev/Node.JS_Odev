@@ -8,8 +8,8 @@ const Sequelize = require('sequelize');
 const fs = require('fs');
 
 //credential usage with harcodeded is not true
-const sequelize = new Sequelize('project', 'superman', process.env.DB_DATABESE_PASSWORD, {
-    host: 'node-app.postgres.database.azure.com',
+const sequelize = new Sequelize('project', process.env.DB_DATABESE_USERNAME, process.env.DB_DATABESE_PASSWORD, {
+    host: process.env.DB_DATABESE_HOST,
     port: 5432,
     dialect: 'postgres',
     dialectOptions: {
