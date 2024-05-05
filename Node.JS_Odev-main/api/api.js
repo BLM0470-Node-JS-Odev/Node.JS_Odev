@@ -110,6 +110,6 @@ cron.schedule(`${process.env.PERIOD} * * * * *`, async ()=> {
 
 
 //8080 portundan uygulamamızı çalıştırdık.
-app.listen(8000, () => {
-    console.log('Listining on port 8000');
+app.listen(3000, () => {
+    console.log('Listining on port 3000');
 });
