@@ -5,7 +5,6 @@ const Sequelize = require('sequelize');
 const fs = require('fs');
 
 //credential usage with harcodeded is not true
-const sequelize = new Sequelize('project', 'superman', "G{gQqbX#,:^m[5Y's>f)", {
 const sequelize = new Sequelize('project', {
     host: 'node-app.postgres.database.azure.com',
     port: 5432,
