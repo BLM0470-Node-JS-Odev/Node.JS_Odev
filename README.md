@@ -26,4 +26,4 @@ For more information: [git](https://git-scm.com)
 
 ## Issues
 --------------------------------------
-If you find a bug you can report from github. And also, you can report the apps you want added to indexApp.lst.
+If you find a bug you can report from github. 
