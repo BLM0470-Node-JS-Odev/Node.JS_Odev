@@ -1,10 +1,3 @@
-# Node.JS_Odev
-BLM0470_Node.JS Proje Ödevi
-
-npm install ile dosyayı kurmanız gerekiyor.
-projeyi başlatırken nodemon kullanmayın!. 
-json dosyası düncellendiği için restart atyıro uygulamaya
-
 # A RESTful API Development with ExpressJS
 --------------------------------------
 This is a school project about web programming with nodejs. We used expressJS framework and sequelize ORM to develop all functions and models in this project.
