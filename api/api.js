@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 const database = require('./database');
 const departmanRoutes = require('./routes/departments');
 const studentRoutes = require('./routes/students');
+const accountRoutes = require('./routes/accounts');
 const Student = require('./models/Student');
 
 
@@ -33,6 +34,7 @@ database.sync().then(result => {console.log("sync succesfull")}).catch(err => {c
 //Sistem ilk routesleri çalıştırmaya çalışır o yüzden öncelikle routesları app.use() ile başa yazdık.
 app.use('/department', departmanRoutes);
 app.use('/student', studentRoutes);
+app.use('/', accountRoutes);
 
 
 //not found middleware
@@ -69,7 +71,7 @@ app.use((error, req, res, next) =>{
 
 
 
-cron.schedule(`${process.env.PERIOD} * * * * *`, async ()=> {
+cron.schedule(`${process.env.PERIOD} * * * *`, async ()=> {
     console.log("cron job worked!");
 
     // Fetch Student instances
@@ -90,7 +92,7 @@ cron.schedule(`${process.env.PERIOD} * * * * *`, async ()=> {
         20360859116@ogrenci.btu.edu.tr,\
         20360859030@ogrenci.btu.edu.tr,\
         20360859032@ogrenci.btu.edu.tr", // list of receivers
-        subject: "NODEJS PROJE TEST", // Subject line
+        subject: "RESTful API Service Alert", // Subject line
         text: "Hello Sir, Students are listed in the attachement", // plain text body
         attachments: [{
             filename: "list.json",
